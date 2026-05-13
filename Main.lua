@@ -304,7 +304,7 @@ TabBrowser:CreateButton({
             Rayfield:Notify({Title = "Bulunamadı", Content = "Tekrar tara.", Duration = 3})
         end
     end
-})-- ============================================================================
+})-- -- ============================================================================
 -- BÖLÜM 7: OYUN BİLGİSİ
 -- YENİ: Sunucu uptime, oyuncu sayısı canlı güncelleme
 -- ============================================================================
@@ -330,9 +330,7 @@ task.spawn(function()
             PlayerLabel:Set("👥 Bu Sunucuda: " .. #Players:GetPlayers() .. "/" .. Players.MaxPlayers)
         end)
     end
-end)-- =======
-
-        -- ============================================================================
+end)-- ============================================================================
 -- BÖLÜM 8: AYARLAR
 -- DÜZELTME: AutoHop çift loop açmıyor artık (_G.AutoHopRunning kontrolü)
 -- DÜZELTME: break kaldırıldı, hop sonrası loop devam ediyor
@@ -426,7 +424,6 @@ TabSettings:CreateButton({
         pingHistory = {}
         Rayfield:Notify({Title = "Sıfırlandı", Content = "Ping geçmişi temizlendi.", Duration = 2})
     end
-})
 })-- ============================================================================
 -- BÖLÜM 9: YEDEK SİSTEM
 -- YENİ: Başarı/hata bildirimi eklendi
