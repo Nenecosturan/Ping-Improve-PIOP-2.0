@@ -336,18 +336,45 @@ end)-- =========================================================================
 -- DÜZELTME: break kaldırıldı, hop sonrası loop devam ediyor
 -- YENİ: Ping eşiği slider, Anti-AFK, bekleme süresi ayarı
 -- ============================================================================
+-- [GEREKLİ SERVİSLER]
+local UIS = game:GetService("UserInputService")
 
--- DÜZELTME: Ping eşiği artık ayarlanabilir
-TabSettings:CreateSlider({
+-- [DEĞİŞKENLER - Bunlar Slider'ın dışında, üstünde tanımlanmalı]
+local isSliding = false
+local tempValue = 300 -- Varsayılan değer
+
+-- 1. BIRAKMA İŞLEMİNİ ALGILAYAN SİSTEM
+-- Bu kısım, ekranın neresinde olursan ol parmağını bıraktığın anı yakalar.
+UIS.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        if isSliding then
+            isSliding = false -- Kaydırma bitti
+            
+            -- ASIL İŞLEM BURADA GERÇEKLEŞİR (Sadece bırakınca çalışır)
+            _G.PingThreshold = tempValue
+            
+            Rayfield:Notify({
+                Title = "Eşik Güncellendi", 
+                Content = "Otomatik hop: " .. tempValue .. " ms Üstünde", 
+                Duration = 2
+            })
+        end
+    end
+end)
+
+-- 2. SLIDER TANIMLAMASI
+bSettings:CreateSlider({
     Name = "Ping Spike Eşiği (ms)",
     Range = {100, 600},
     Increment = 25,
     CurrentValue = 300,
     Callback = function(Value)
-        _G.PingThreshold = Value
-        Rayfield:Notify({Title = "Eşik Güncellendi", Content = "Otomatik hop: " .. Value .. "ms üstünde", Duration = 2})
+        -- Kaydırma sırasında sadece geçici değeri güncelle
+        tempValue = Value
+        isSliding = true -- Sisteme "şu an bar tutuluyor" bilgisini ver
     end
 })
+        
 
 -- DÜZELTME: Toggle her kapanıp açıldığında çift spawn oluşturmaz
 TabSettings:CreateToggle({
