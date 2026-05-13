@@ -1,5 +1,5 @@
 -- ============================================================================
--- •PIOP• CONNECT — ZENITH V3.0 | 2026 PROFESYONEl SÜRÜM
+-- •PIOP• CONNECT — ZENITH V2.0 | 2026 PROFESYONEl SÜRÜM
 -- BÖLÜM 1: AUTO-EXECUTE & SERVİSLER
 -- ============================================================================
 
@@ -111,18 +111,18 @@ end-- ==========================================================================
 -- ============================================================================
 
 local Window = Rayfield:CreateWindow({
-    Name = "•PIOP• Connect | ZENITH V3",
+    Name = "•PIOP• Connect | ZENITH 2.0[NEW]",
     LoadingTitle = "ANALYZING SOURCE...",
     LoadingSubtitle = "Loading Components",
-    Theme = "DarkBlue",
+    Theme = "Lavender",
     ConfigurationSaving = { Enabled = false }
 })
 
-local TabSmart   = Window:CreateTab("Smart Connect",        6031265971)
-local TabManual  = Window:CreateTab("Manual Routes",        6031289993)
-local TabBrowser = Window:CreateTab("Server Browser",       6031280951)
-local TabInfo    = Window:CreateTab("Game Info & Version",  6031154887)
-local TabSettings= Window:CreateTab("Ayarlar",              6031280793)
+local TabSmart   = Window:CreateTab("Smart Connect",        "Zap")
+local TabManual  = Window:CreateTab("Manual Routes",        "Map")
+local TabBrowser = Window:CreateTab("Server Browser",       "Search")
+local TabInfo    = Window:CreateTab("Game Info & Version",  "Database")
+local TabSettings= Window:CreateTab("Ayarlar",              "Settings")
 local TabBackup  = Window:CreateTab("Backup Script",        6034287525)-- ============================================================================
 -- BÖLÜM 4: SMART CONNECT & CANLI PİNG
 -- YENİ: Ping geçmişi (son 5 değer), FPS gösterimi, mevcut sunucu bilgisi
@@ -196,7 +196,7 @@ end)
 
 -- Butonlar
 TabSmart:CreateButton({
-    Name = "⚡ Auto-Connect (En İyi Sunucu) ⚡",
+    Name = "⚡ Auto-Connect ⚡",
     Callback = function() ForceRegionHop("En İyi Sunucu") end
 })
 
@@ -211,7 +211,7 @@ TabSmart:CreateButton({
 
 -- YENİ: Mevcut sunucu ID'sini output'a yazdır (kopyalamak için)
 TabSmart:CreateButton({
-    Name = "📋 Sunucu ID'sini Kopyala (Output)",
+    Name = "📋 Sunucu ID'sini Kopyala",
     Callback = function()
         print("[ZENITH] Server ID: " .. game.JobId)
         Rayfield:Notify({Title = "Kopyalandı!", Content = "Sunucu ID'si Output'a yazdırıldı.", Duration = 3})
@@ -268,7 +268,7 @@ TabBrowser:CreateButton({
             local isCurrent= v.id == game.JobId
             local status   = isCurrent and "📍 MEVCUT"
                           or current >= max and "🔴 DOLU"
-                          or pct > 75 and "🟡 DOLU GİBİ"
+                          or pct > 75 and "🟡 DOLUYA YAKIN"
                           or "🟢 BOŞ"
 
             -- DÜZELTME: Scan numarası ile etiketle — eski sonuçlarla karışmaz
@@ -291,7 +291,7 @@ TabBrowser:CreateButton({
 
 -- YENİ: Direkt en boş sunucuya bağlan (önbellekten)
 TabBrowser:CreateButton({
-    Name = "🏃 En Boş Sunucuya Bağlan (önbellekten)",
+    Name = "🏃 En Boş Sunucuya Bağlan (Sunucu taraması ile)",
     Callback = function()
         if #ServerCache == 0 then
             Rayfield:Notify({Title = "Önbellek Boş", Content = "Önce tarama yap.", Duration = 3})
@@ -313,7 +313,7 @@ local serverStart = tick()  -- Script yüklendiğinde başlar
 
 TabInfo:CreateParagraph({
     Title = "Oyun Bilgisi",
-    Content = "Place ID: " .. PlaceId .. "\nScript Versiyonu: V3.0 (2026)\nGitHub: Nenecosturan/Pin-improve"
+    Content = "Place ID: " .. PlaceId .. "\nScript Versiyonu: V2.0(Güncel) (2026)\nGitHub: Nenecosturan/Ping-Improbe-PIOP-2.0"
 })
 
 local UptimeLabel  = TabInfo:CreateLabel("⏱️ Server Uptime: --")
@@ -431,7 +431,7 @@ TabSettings:CreateButton({
 
 TabBackup:CreateParagraph({
     Title = "Yedek Script",
-    Content = "Ana script yüklenemezse bu butonu kullan."
+    Content = "Ana script yanında kullanabilirsin."
 })
 
 TabBackup:CreateButton({
