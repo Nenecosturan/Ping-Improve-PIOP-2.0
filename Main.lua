@@ -114,7 +114,7 @@ local Window = Rayfield:CreateWindow({
     Name = "•PIOP• Connect | ZENITH 2.0[NEW]",
     LoadingTitle = "ANALYZING SOURCE...",
     LoadingSubtitle = "Loading Components",
-    Theme = "Aqua",
+    Theme = "Serenity",
     ConfigurationSaving = { Enabled = false }
 })
 
