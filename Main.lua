@@ -337,13 +337,27 @@ end)-- =========================================================================
 -- YENİ: Ping eşiği slider, Anti-AFK, bekleme süresi ayarı
 -- ============================================================================
 -- [GEREKLİ SERVİSLER]
+
+-- 2. SLIDER TANIMLAMASI
+bSettings:CreateSlider({
+    Name = "Ping Spike Eşiği (ms)",
+    Range = {100, 600},
+    Increment = 25,
+    CurrentValue = 300,
+    Callback = function(Value)
+        -- Kaydırma sırasında sadece geçici değeri güncelle
+        tempValue = Value
+        isSliding = true -- Sisteme "şu an bar tutuluyor" bilgisini ver
+    end
+})
+        
 local UIS = game:GetService("UserInputService")
 
 -- [DEĞİŞKENLER - Bunlar Slider'ın dışında, üstünde tanımlanmalı]
 local isSliding = false
 local tempValue = 300 -- Varsayılan değer
-
--- 1. BIRAKMA İŞLEMİNİ ALGILAYAN SİSTEM
+        
+        -- 1. BIRAKMA İŞLEMİNİ ALGILAYAN SİSTEM
 -- Bu kısım, ekranın neresinde olursan ol parmağını bıraktığın anı yakalar.
 UIS.InputEnded:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
@@ -362,19 +376,7 @@ UIS.InputEnded:Connect(function(input)
     end
 end)
 
--- 2. SLIDER TANIMLAMASI
-bSettings:CreateSlider({
-    Name = "Ping Spike Eşiği (ms)",
-    Range = {100, 600},
-    Increment = 25,
-    CurrentValue = 300,
-    Callback = function(Value)
-        -- Kaydırma sırasında sadece geçici değeri güncelle
-        tempValue = Value
-        isSliding = true -- Sisteme "şu an bar tutuluyor" bilgisini ver
-    end
-})
-        
+
 
 -- DÜZELTME: Toggle her kapanıp açıldığında çift spawn oluşturmaz
 TabSettings:CreateToggle({
