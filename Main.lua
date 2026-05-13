@@ -3,7 +3,7 @@
 -- BÖLÜM 1: AUTO-EXECUTE & SERVİSLER
 -- ============================================================================
 
-local scriptSource = [[loadstring(game:HttpGet('https://raw.githubusercontent.com/Nenecosturan/Pin-improve/main/Main.lua'))()]]
+local scriptSource = [[loadstring(game:HttpGet('https://raw.githubusercontent.com/Nenecosturan/Ping-Improve-PIOP-2.0/main/Main.lua'))()]]
 if queue_on_teleport then
     pcall(function() queue_on_teleport(scriptSource) end)
 end
