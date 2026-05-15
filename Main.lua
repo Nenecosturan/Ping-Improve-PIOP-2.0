@@ -75,29 +75,29 @@ end
 -- ve bölge adını sadece kullanıcıya bilgi olarak gösterir.
 local function ForceRegionHop(displayName)
     Rayfield:Notify({
-        Title = "Taranıyor...",
-        Content = displayName .. " için uygun sunucu aranıyor...",
+        Title = "Scanning...",
+        Content = displayName .. " founding most suitable server....",
         Duration = 3
     })
 
     local servers = FetchServers(100)
     if not servers then
-        Rayfield:Notify({Title = "HATA", Content = "Sunucu listesi alınamadı.", Duration = 4})
+        Rayfield:Notify({Title = "ERROR", Content = "Server list isn't avaible.", Duration = 4})
         return
     end
 
     local target = FindBestServer(servers)
     if target then
         Rayfield:Notify({
-            Title = "Bağlanılıyor!",
-            Content = "Hedef: " .. target.playing .. "/" .. target.maxPlayers .. " oyunculu sunucu",
+            Title = "Connecting!",
+            Content = "Target: " .. target.playing .. "/" .. target.maxPlayers .. " Server with players",
             Duration = 3
         })
         TeleportService:TeleportToPlaceInstance(PlaceId, target.id, LocalPlayer)
     else
         Rayfield:Notify({
-            Title = "❌ Sunucu Bulunamadı",
-            Content = "Şu an uygun sunucu yok. Daha sonra tekrar dene.",
+            Title = "❌ Server not founded",
+            Content = "Theres no avaible server.",
             Duration = 5
         })
     end
@@ -122,7 +122,7 @@ local TabSmart   = Window:CreateTab("Smart Connect",        "Zap")
 local TabManual  = Window:CreateTab("Manual Routes",        "Map")
 local TabBrowser = Window:CreateTab("Server Browser",       "Search")
 local TabInfo    = Window:CreateTab("Game Info & Version",  "Database")
-local TabSettings= Window:CreateTab("Ayarlar",              "Settings")
+local TabSettings= Window:CreateTab("Settings",              "Settings")
 local TabBackup  = Window:CreateTab("Backup Script",        6034287525)-- ============================================================================
 -- BÖLÜM 4: SMART CONNECT & CANLI PİNG
 -- YENİ: Ping geçmişi (son 5 değer), FPS gösterimi, mevcut sunucu bilgisi
@@ -130,12 +130,12 @@ local TabBackup  = Window:CreateTab("Backup Script",        6034287525)-- ======
 
 -- Mevcut sunucu bilgisi
 TabSmart:CreateParagraph({
-    Title = "Mevcut Sunucu",
-    Content = "ID: " .. game.JobId:sub(1, 18) .. "...\nOyuncu: " .. #Players:GetPlayers() .. "/" .. Players.MaxPlayers
+    Title = "Current Server",
+    Content = "ID: " .. game.JobId:sub(1, 18) .. "...\nPlayers: " .. #Players:GetPlayers() .. "/" .. Players.MaxPlayers
 })
 
-local PingLabel    = TabSmart:CreateLabel("📡 Ping Analiz Ediliyor...")
-local PingHistory  = TabSmart:CreateLabel("📊 Geçmiş: --")
+local PingLabel    = TabSmart:CreateLabel("📡 Analyzing Ping...")
+local PingHistory  = TabSmart:CreateLabel("📊 Ping history: --")
 local FPSLabel     = TabSmart:CreateLabel("🖥️ FPS: --")
 
 -- YENİ: Son 5 ping değerini tutan tablo
@@ -188,33 +188,33 @@ task.spawn(function()
         end
 
         pcall(function()
-            PingLabel:Set("📡 Canlı Ping: " .. ping .. " ms " .. icon .. " | Ort: " .. avg .. "ms")
-            PingHistory:Set("📊 Son " .. MAX_HISTORY .. ": " .. histStr)
+            PingLabel:Set("📡 Live Ping: " .. ping .. " ms " .. icon .. " | Ort: " .. avg .. "ms")
+            PingHistory:Set("📊 Last " .. MAX_HISTORY .. ": " .. histStr)
         end)
     end
 end)
 
 -- Butonlar
 TabSmart:CreateButton({
-    Name = "⚡ Auto-Connect ⚡",
-    Callback = function() ForceRegionHop("En İyi Sunucu") end
+    Name = "⚡ • Smart-Connect •⚡",
+    Callback = function() ForceRegionHop("The Best Server") end
 })
 
 -- YENİ: Mevcut sunucuya yeniden bağlan
 TabSmart:CreateButton({
-    Name = "🔁 Mevcut Sunucuya Yeniden Bağlan",
+    Name = "🔁 • Rejoin Into Current Server •",
     Callback = function()
-        Rayfield:Notify({Title = "Yeniden Bağlanıyor...", Content = "Aynı sunucuya bağlanılıyor.", Duration = 2})
+        Rayfield:Notify({Title = "Reconnecting...", Content = "Rejoining into the current server.", Duration = 2})
         RejoinCurrentServer()
     end
 })
 
 -- YENİ: Mevcut sunucu ID'sini output'a yazdır (kopyalamak için)
 TabSmart:CreateButton({
-    Name = "📋 Sunucu ID'sini Kopyala",
+    Name = "📋 |Copy Server ID|",
     Callback = function()
-        print("[ZENITH] Server ID: " .. game.JobId)
-        Rayfield:Notify({Title = "Kopyalandı!", Content = "Sunucu ID'si Output'a yazdırıldı.", Duration = 3})
+        print("Server ID: " .. game.JobId)
+        Rayfield:Notify({Title = "Copied", Content = "Server ID has been writed to Output.", Duration = 3})
     end
 })-- ============================================================================
 -- BÖLÜM 5: MANUEL ROTALAR
@@ -223,8 +223,8 @@ TabSmart:CreateButton({
 -- ============================================================================
 
 TabManual:CreateParagraph({
-    Title = "⚠️ Bilgi",
-    Content = "Roblox'un API'si sunucu lokasyonu vermez. Bu butonlar en boş sunucuya bağlar. Belirli bir bölge için cihazınızda VPN kullanın."
+    Title = "⚠️ -NOTE-",
+    Content = "This feature might not work properly because of Roblox API,use an VPN for better result."
 })
 
 TabManual:CreateButton({Name = "• Germany / Holland • 🇩🇪", Callback = function() ForceRegionHop("EU-West") end})
@@ -243,16 +243,16 @@ TabManual:CreateButton({Name = "• Singapore / Asia • 🌏",   Callback = fun
 local scanCount = 0  -- DÜZELTME: Eski butonlarla karışmaması için scan numarası
 
 TabBrowser:CreateButton({
-    Name = "🔄 SUNUCULARI TARA & YENİLE",
+    Name = "🔄 • Scan & Refresh Servers •",
     Callback = function()
         scanCount += 1
         local currentScan = scanCount
 
-        Rayfield:Notify({Title = "Taranıyor...", Content = "Sunucu listesi alınıyor...", Duration = 2})
+        Rayfield:Notify({Title = "Scanning...", Content = "Getting Server list...", Duration = 2})
 
         local servers = FetchServers(10)
         if not servers then
-            Rayfield:Notify({Title = "HATA", Content = "Sunucu listesi alınamadı.", Duration = 4})
+            Rayfield:Notify({Title = "ERROR", Content = "Server list isn't avaible.", Duration = 4})
             return
         end
 
@@ -266,42 +266,42 @@ TabBrowser:CreateButton({
             local max      = v.maxPlayers
             local pct      = math.floor((current / math.max(max, 1)) * 100)
             local isCurrent= v.id == game.JobId
-            local status   = isCurrent and "📍 MEVCUT"
-                          or current >= max and "🔴 DOLU"
-                          or pct > 75 and "🟡 DOLUYA YAKIN"
-                          or "🟢 BOŞ"
+            local status   = isCurrent and "📍 -Current-"
+                          or current >= max and "🔴 Full"
+                          or pct > 75 and "🟡 Almost Full"
+                          or "🟢 Empty"
 
             -- DÜZELTME: Scan numarası ile etiketle — eski sonuçlarla karışmaz
             TabBrowser:CreateButton({
                 Name = "[S" .. currentScan .. "] #" .. i .. " | 👥 " .. current .. "/" .. max .. " %" .. pct .. " | " .. status,
                 Callback = function()
                     if isCurrent then
-                        Rayfield:Notify({Title = "Zaten Buradasın", Content = "Bu senin mevcut sunucun!", Duration = 3})
+                        Rayfield:Notify({Title = "You're currently here", Content = "This is you'r current server", Duration = 3})
                         return
                     end
-                    Rayfield:Notify({Title = "Bağlanılıyor...", Content = current .. "/" .. max .. " oyunculu sunucu", Duration = 2})
+                    Rayfield:Notify({Title = "Connecting...", Content = current .. "/" .. max .. " Full server!", Duration = 2})
                     TeleportService:TeleportToPlaceInstance(PlaceId, v.id, LocalPlayer)
                 end
             })
         end
 
-        Rayfield:Notify({Title = "✅ Tamamlandı", Content = #servers .. " sunucu listelendi.", Duration = 3})
+        Rayfield:Notify({Title = "✅ Completed!", Content = #servers .. " Servers listed.", Duration = 3})
     end
 })
 
 -- YENİ: Direkt en boş sunucuya bağlan (önbellekten)
 TabBrowser:CreateButton({
-    Name = "🏃 En Boş Sunucuya Bağlan (Sunucu taraması ile)",
+    Name = "🏃 • Connect into emptiest server •",
     Callback = function()
         if #ServerCache == 0 then
-            Rayfield:Notify({Title = "Önbellek Boş", Content = "Önce tarama yap.", Duration = 3})
+            Rayfield:Notify({Title = "Cache empty", Content = "Do Server Scan First!", Duration = 3})
             return
         end
         local target = FindBestServer(ServerCache)
         if target then
             TeleportService:TeleportToPlaceInstance(PlaceId, target.id, LocalPlayer)
         else
-            Rayfield:Notify({Title = "Bulunamadı", Content = "Tekrar tara.", Duration = 3})
+            Rayfield:Notify({Title = "Not Found", Content = "Scan again.", Duration = 3})
         end
     end
 })-- -- ============================================================================
@@ -312,12 +312,12 @@ TabBrowser:CreateButton({
 local serverStart = tick()  -- Script yüklendiğinde başlar
 
 TabInfo:CreateParagraph({
-    Title = "Oyun Bilgisi",
-    Content = "Place ID: " .. PlaceId .. "\nScript Versiyonu: V2.0(Güncel) (2026)\nGitHub: Nenecosturan/Ping-Improbe-PIOP-2.0"
+    Title = "Game info",
+    Content = "Place ID: " .. PlaceId .. "\nScript Version: V2.1 () (2026)\nGitHub: Nenecosturan/Ping-Improve-PIOP-2.0"
 })
 
 local UptimeLabel  = TabInfo:CreateLabel("⏱️ Server Uptime: --")
-local PlayerLabel  = TabInfo:CreateLabel("👥 Oyuncular: --")
+local PlayerLabel  = TabInfo:CreateLabel("👥 Players: --")
 
 task.spawn(function()
     while task.wait(5) do
@@ -326,8 +326,8 @@ task.spawn(function()
         local seconds = uptime % 60
 
         pcall(function()
-            UptimeLabel:Set("⏱️ Script Uptime: " .. minutes .. "dk " .. seconds .. "sn")
-            PlayerLabel:Set("👥 Bu Sunucuda: " .. #Players:GetPlayers() .. "/" .. Players.MaxPlayers)
+            UptimeLabel:Set("⏱️ Script Uptime: " .. minutes .. "Min " .. seconds .. "Sec")
+            PlayerLabel:Set("👥 This Server: " .. #Players:GetPlayers() .. "/" .. Players.MaxPlayers)
         end)
     end
 end)-- ============================================================================
@@ -339,19 +339,19 @@ end)-- =========================================================================
 
 -- DÜZELTME: Ping eşiği artık ayarlanabilir
 TabSettings:CreateSlider({
-    Name = "Ping Spike Eşiği (ms)",
+    Name = "Ping Spike threshold (ms)",
     Range = {100, 600},
     Increment = 25,
     CurrentValue = 300,
     Callback = function(Value)
         _G.PingThreshold = Value
-        Rayfield:Notify({Title = "Eşik Güncellendi", Content = "Otomatik hop: " .. Value .. "ms üstünde", Duration = 2})
+        Rayfield:Notify({Title = "Changed", Content = "Auto-hop: " .. Value .. "ms Above", Duration = 2})
     end
 })
 
 -- DÜZELTME: Toggle her kapanıp açıldığında çift spawn oluşturmaz
 TabSettings:CreateToggle({
-    Name = "Ping Spike Koruması (Auto-Hop)",
+    Name = "• Ping Spike Protection • (Auto-Hop)",
     CurrentValue = false,
     Callback = function(Value)
         _G.AutoHopEnabled = Value
@@ -360,7 +360,7 @@ TabSettings:CreateToggle({
             _G.AutoHopRunning = true  -- DÜZELTME: çift spawn engeli
 
             task.spawn(function()
-                Rayfield:Notify({Title = "Koruma Aktif", Content = "Ping " .. _G.PingThreshold .. "ms üstüne çıkarsa hop yapılacak.", Duration = 3})
+                Rayfield:Notify({Title = "Protection Active", Content = "Ping " .. _G.PingThreshold .. "if ms above auto-hop will be done.", Duration = 3})
 
                 while _G.AutoHopEnabled do
                     task.wait(10)
@@ -369,7 +369,7 @@ TabSettings:CreateToggle({
                     if ping > _G.PingThreshold then
                         Rayfield:Notify({
                             Title = "⚠️ Ping Spike!",
-                            Content = "Ping: " .. ping .. "ms — Sunucu değiştiriliyor...",
+                            Content = "Ping: " .. ping .. "ms — Changing Server...",
                             Duration = 4
                         })
                         ForceRegionHop("Auto-Hop")
@@ -402,13 +402,13 @@ TabSettings:CreateToggle({
                     end
                 end
             end)
-            Rayfield:Notify({Title = "Anti-AFK Aktif", Content = "Her 60 saniyede bir tetiklenecek.", Duration = 3})
+            Rayfield:Notify({Title = "Anti-AFK Active", Content = "Anti-afk is currently active.", Duration = 3})
         end
     end
 })
 
 TabSettings:CreateSlider({
-    Name = "Render Kalitesi",
+    Name = "Render Quality |",
     Range = {1, 10},
     Increment = 1,
     CurrentValue = 10,
@@ -419,10 +419,10 @@ TabSettings:CreateSlider({
 
 -- YENİ: Ping geçmişini sıfırla
 TabSettings:CreateButton({
-    Name = "🗑️ Ping Geçmişini Sıfırla",
+    Name = "🗑️ • Refresh Ping history •",
     Callback = function()
         pingHistory = {}
-        Rayfield:Notify({Title = "Sıfırlandı", Content = "Ping geçmişi temizlendi.", Duration = 2})
+        Rayfield:Notify({Title = "Refreshed", Content = "Refreshed Ping History.", Duration = 2})
     end
 })-- ============================================================================
 -- BÖLÜM 9: YEDEK SİSTEM
@@ -430,23 +430,23 @@ TabSettings:CreateButton({
 -- ============================================================================
 
 TabBackup:CreateParagraph({
-    Title = "Yedek Script",
-    Content = "Ana script yanında kullanabilirsin."
+    Title = "Extra Script",
+    Content = "Our backup script."
 })
 
 TabBackup:CreateButton({
-    Name = "🚀 Yedek Scripti Yükle (PIOP Backup)",
+    Name = "🚀 Load Backup Script (•PIOP•)",
     Callback = function()
-        Rayfield:Notify({Title = "Yükleniyor...", Content = "Yedek script alınıyor...", Duration = 3})
+        Rayfield:Notify({Title = "Loading...", Content = "Loading Source...", Duration = 3})
         local ok, err = pcall(function()
             loadstring(game:HttpGet(
                 "https://raw.githubusercontent.com/Nenecosturan/Ping-Optimizer-PIOP-/refs/heads/main/Main.lua"
             ))()
         end)
         if ok then
-            Rayfield:Notify({Title = "✅ Başarılı", Content = "Yedek script yüklendi.", Duration = 4})
+            Rayfield:Notify({Title = "✅ Success", Content = "PIOP loaded.", Duration = 4})
         else
-            Rayfield:Notify({Title = "❌ Hata", Content = "Yedek yüklenemedi: " .. tostring(err):sub(1,60), Duration = 5})
+            Rayfield:Notify({Title = "❌ ERROR", Content = "PIOP Failed: " .. tostring(err):sub(1,60), Duration = 5})
         end
     end
 })
